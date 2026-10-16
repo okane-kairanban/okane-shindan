@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="7つの質問で、働く60代の年金・税金タイプと「あなたの場合はいくら」がわかる無料診断。">
+<title>働く60代のお金タイプ診断</title>
+<style>[hidden]{display:none!important}img{max-width:100%}</style>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Zen+Maru+Gothic:wght@700;900&display=swap">
+<style>
+/* Layout: one narrow column like a 回覧板 clipboard — header band, then one question per board, result board with a stamp */
+:root{
+  --paper:#fbf6ee; --board:#ffffff; --ink:#1c2b40; --navy:#1f3a5f; --sub:#5b6878;
+  --accent:#d9822b; --accent-ink:#ffffff; --stamp:#d63031; --hi:#ffd400; --hi-ink:#1c2b40;
+  --line:#e6dccb; --soft:#f4ece0; --good:#2f7d4f;
+  --f-disp:"Zen Maru Gothic","Hiragino Maru Gothic ProN","BIZ UDPGothic",sans-serif;
+  --f-body:"BIZ UDPGothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#111824; --board:#1a2433; --ink:#eef2f7; --navy:#8fb3dd; --sub:#a6b2c2;
+  --accent:#f0a04b; --accent-ink:#1a1206; --stamp:#ff6b6b; --hi:#ffd400; --hi-ink:#1c2b40;
+  --line:#2c3a4e; --soft:#222e40; --good:#6fcf97; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#111824; --board:#1a2433; --ink:#eef2f7; --navy:#8fb3dd; --sub:#a6b2c2;
+  --accent:#f0a04b; --accent-ink:#1a1206; --stamp:#ff6b6b; --hi:#ffd400; --hi-ink:#1c2b40;
+  --line:#2c3a4e; --soft:#222e40; --good:#6fcf97; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.75;margin:0}
+.wrap{max-width:620px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+.band{background:#1f3a5f;color:#fbf6ee}
+.band .wrap{padding-block:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.band b{font-family:var(--f-disp);font-size:16px;letter-spacing:.04em}
+.band span{font-size:13px;opacity:.85}
+
+h1,h2,h3{font-family:var(--f-disp);text-wrap:balance;margin:0;line-height:1.35}
+.board{background:var(--board);border:2px solid var(--line);border-radius:14px;padding:28px 22px 24px;position:relative;margin-top:34px}
+.board::before{content:"";position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:110px;height:26px;border-radius:8px;background:var(--navy);box-shadow:inset 0 -4px 0 rgba(0,0,0,.18)}
+.kicker{font-size:14px;letter-spacing:.12em;color:var(--accent);font-weight:700}
+.hero h1{font-size:clamp(30px,8vw,42px);color:var(--navy);margin-top:6px}
+.hero h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--hi) 62%);color:var(--ink)}
+.hero p{margin:14px 0 0}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.facts span{background:var(--soft);border-radius:999px;padding:4px 14px;font-size:15px;font-weight:700}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:62px;border:0;border-radius:12px;background:var(--accent);color:var(--accent-ink);font:700 21px/1.3 var(--f-body);cursor:pointer;text-decoration:none;padding:12px 18px;text-align:center}
+.btn:focus-visible,.opt:focus-visible,.back:focus-visible,input:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+.btn:active{transform:translateY(1px)}
+.mt{margin-top:22px}
+.sample{margin-top:22px;border-top:2px dashed var(--line);padding-top:18px}
+.sample .lbl{font-size:14px;color:var(--sub)}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.mini div{background:var(--soft);border-radius:10px;padding:10px 12px}
+.mini small{display:block;font-size:13px;color:var(--sub);line-height:1.4}
+.mini strong{font-size:22px;font-variant-numeric:tabular-nums;color:var(--navy)}
+.safe{font-size:14px;color:var(--sub);margin-top:14px}
+
+/* question */
+.prog{display:flex;align-items:center;gap:12px;font-size:15px;color:var(--sub);font-weight:700}
+.bar{flex:1;height:10px;background:var(--soft);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s}
+.qtext{font-size:clamp(24px,6.4vw,30px);color:var(--ink);margin-top:16px}
+.qnote{font-size:15px;color:var(--sub);margin-top:8px}
+.opts{display:grid;gap:12px;margin-top:20px}
+.opt{display:block;width:100%;text-align:left;min-height:64px;padding:14px 18px;border-radius:12px;border:2px solid var(--line);background:var(--board);color:var(--ink);font:700 20px/1.45 var(--f-body);cursor:pointer}
+.opt:hover{border-color:var(--accent)}
+.opt.on{border-color:var(--accent);background:var(--soft)}
+.custom{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px;font-size:16px;color:var(--sub)}
+.custom input{width:7em;font:700 20px var(--f-body);padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--board);color:var(--ink)}
+.custom button{font:700 16px var(--f-body);padding:12px 16px;border-radius:10px;border:2px solid var(--navy);background:transparent;color:var(--navy);cursor:pointer}
+.back{margin-top:22px;background:none;border:0;color:var(--sub);font:700 16px var(--f-body);cursor:pointer;padding:8px 0}
+
+/* result */
+.rhead{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
+.rhead h2{font-size:clamp(28px,7.6vw,38px);color:var(--navy)}
+.rhead p{margin:8px 0 0;font-size:17px}
+.stamp{width:96px;height:96px;border:4px solid var(--stamp);border-radius:50%;color:var(--stamp);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--f-disp);font-weight:900;transform:rotate(-12deg);line-height:1.15;text-align:center}
+.stamp small{font-size:12px;border-top:2px solid var(--stamp);border-bottom:2px solid var(--stamp);padding:1px 6px;margin:3px 0}
+.stamp b{font-size:24px}
+.who{font-size:14px;color:var(--sub);margin-top:14px;background:var(--soft);border-radius:8px;padding:6px 12px}
+.total{margin-top:22px;background:var(--navy);color:var(--paper);border-radius:12px;padding:18px 20px}
+.total small{display:block;font-size:15px;opacity:.9}
+.total strong{display:block;font-family:var(--f-disp);font-size:clamp(38px,11vw,54px);line-height:1.2;font-variant-numeric:tabular-nums}
+.total strong span{font-size:.45em}
+.total p{margin:6px 0 0;font-size:14px;opacity:.9;line-height:1.6}
+.cards{display:grid;gap:14px;margin-top:18px}
+.card{border:2px solid var(--line);border-radius:12px;padding:16px 18px;min-width:0}
+.card h3{font-size:19px;color:var(--ink);display:flex;gap:10px;align-items:baseline}
+.card h3 .tag{font-family:var(--f-body);font-size:13px;font-weight:700;color:var(--accent);border:1.5px solid var(--accent);border-radius:6px;padding:0 6px;white-space:nowrap}
+.num{font-size:clamp(30px,8.6vw,40px);font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums;line-height:1.3;margin-top:6px}
+.num span{font-size:.5em;color:var(--ink)}
+.card p{margin:6px 0 0;font-size:16px}
+.card .doc{margin-top:10px;font-size:15px;background:var(--soft);border-radius:8px;padding:8px 12px}
+.card .doc b{color:var(--accent)}
+.card.info .num{font-size:24px}
+h3.sec{font-size:22px;color:var(--navy);margin-top:28px}
+ol.todo{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:10px;counter-reset:t}
+ol.todo li{counter-increment:t;display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:start;font-size:17px}
+ol.todo li::before{content:counter(t);width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:700 19px/36px var(--f-body);text-align:center}
+.cta{margin-top:30px;border:3px solid var(--accent);border-radius:14px;padding:20px 18px;background:var(--soft)}
+.cta h3{font-size:22px;color:var(--ink)}
+.cta ul{margin:10px 0 0;padding-left:1.2em;font-size:16px}
+.cta .trust{font-size:14px;color:var(--sub);margin-top:10px}
+.ctl{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.ctl button{flex:1;min-height:52px;border-radius:10px;border:2px solid var(--navy);background:transparent;color:var(--navy);font:700 17px var(--f-body);cursor:pointer}
+.fine{font-size:13px;color:var(--sub);margin-top:26px;line-height:1.7}
+.fine p{margin:0 0 6px}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+@media (max-width:400px){.board{padding:26px 16px 20px}.stamp{width:80px;height:80px}.stamp b{font-size:20px}}
+</style>
+</head>
+<body>
+
+
+<div class="band"><div class="wrap"><b>50歳からのお金の回覧板</b><span>2026年10月の制度で計算</span></div></div>
+
+<main class="wrap" id="app">
+  <section class="board hero" id="intro">
+    <div class="kicker">7つの質問・約1分</div>
+    <h1>働く60代の<br><em>お金タイプ診断</em></h1>
+    <p>年金を受け取る前に決めること、今年の年末に戻るお金。あなたの年齢と働き方から、<b>「あなたの場合はいくら」</b>を出します。</p>
+    <div class="facts"><span>繰下げ</span><span>働いて増える年金</span><span>iDeCo</span><span>年末調整</span></div>
+    <button class="btn mt" id="start" type="button">診断をはじめる</button>
+    <div class="sample">
+      <div class="lbl">結果の例（63歳・会社員・月給35万円・iDeCo月2.3万円の方）</div>
+      <div class="mini" id="mini"></div>
+    </div>
+    <div class="safe">入力した内容はこの画面の中だけで計算します。お名前・口座番号などは聞きません。</div>
+  </section>
+</main>
+
+<script>
+/* ▼ 登録フォームのURLをここに入れる */
+const FORM_URL = 'https://1lejend.com/stepmail/kd.php?no=fylTIRnMmke';
+
+const Q = [
+  {id:'age', q:'今の年齢は？', opts:[['60〜61歳',60],['62〜63歳',62],['64歳',64],['65〜69歳',65],['70歳以上',70]]},
+  {id:'recv', q:'老齢基礎年金（国民年金）を、もう受け取っていますか？',
+   note:'65歳前の「特別支給の老齢厚生年金」だけを受け取っている方は「まだ」を選んでください。',
+   opts:[['まだ受け取っていない',false],['受け取っている（繰上げを含む）',true]]},
+  {id:'work', q:'今の働き方は？', opts:[['会社員・パート（厚生年金に入っている）','emp'],['パート・アルバイト（厚生年金に入っていない）','part'],['自営業・フリーランス','self'],['今は働いていない','none']]},
+  {id:'pay', q:a=>a.work==='self'?'月の所得（売上から経費を引いた額）は？':'月の給料（額面・税金が引かれる前）は？',
+   note:'ボーナスは含めずに選んでください。', skip:a=>a.work==='none',
+   opts:[['15万円未満',12],['15〜25万円',20],['25〜35万円',30],['35万円以上',40]], custom:true},
+  {id:'ideco', q:'iDeCo（イデコ）の掛金は？', skip:a=>a.age>=70,
+   opts:[['入っていない',0],['月1万円くらい',10000],['月2万円くらい',20000],['月2万3千円（今の上限）',23000]]},
+  {id:'spouse', q:'配偶者（夫・妻）は？', opts:[['いない',0],['いる（収入なし、またはパートで年136万円以下）',1],['いる（それより収入が多い）',2]]},
+  {id:'kiso', q:'ねんきん定期便の「老齢基礎年金」の見込額（年額）は？',
+   note:'50歳以上の方のねんきん定期便の「老齢年金の種類と見込額」の表にあります。',
+   skip:a=>a.recv, opts:[['約80万円（ほぼ満額）',800000],['約70万円',700000],['約60万円',600000],['わからない（80万円で計算）',800000]]}
+];
+
+/* ---------- 計算（すべて目安） ---------- */
+const kyuyoKojo=(R,yr)=>{let f;
+  if(R<=1800000)f=R*0.4-100000;else if(R<=3600000)f=R*0.3+80000;else if(R<=6600000)f=R*0.2+440000;else if(R<=8500000)f=R*0.1+1100000;else f=1950000;
+  return Math.min(R,Math.max(yr===7?650000:740000,f));};
+const kiso=(g,yr)=>{ if(yr===8&&g<=4890000)return 1040000;
+  if(g<=1320000)return 950000; if(g<=3360000)return 880000; if(g<=4890000)return 680000; if(g<=6550000)return 630000; if(g<=23500000)return 580000; return 480000;};
+const itax=t=>{t=Math.floor(Math.max(0,t)/1000)*1000;let x;
+  if(t<=1950000)x=t*.05;else if(t<=3300000)x=t*.1-97500;else if(t<=6950000)x=t*.2-427500;else if(t<=9000000)x=t*.23-636000;else x=t*.33-1536000;
+  return Math.floor(x*1.021);};
+function taxes(a,ideco,yr){
+  if(a.work==='none'||!a.pay) return {it:0,rt:0,g:0};
+  const m=a.pay*10000, R=m*12;
+  let g, sha;
+  if(a.work==='self'){g=R; sha=R*0.10;} else {g=R-kyuyoKojo(R,yr); sha=R*(a.work==='emp'?0.15:0.10);}
+  const sp=(a.spouse===1&&g<=9000000)?1:0;
+  const it=itax(g-sha-kiso(g,yr)-sp*380000-ideco*12);
+  const rt=Math.floor(Math.max(0,g-sha-430000-sp*330000-ideco*12)*0.10);
+  return {it,rt,g};
+}
+const saving=(a,ideco)=>{const b=taxes(a,0,8),c=taxes(a,ideco,8);return (b.it+b.rt)-(c.it+c.rt);};
+const r100=n=>Math.round(n/100)*100;
+const yen=n=>r100(n).toLocaleString('ja-JP');
+
+function compute(a){
+  const out={items:[],todo:[],sum:0};
+  const emp=a.work==='emp', salaried=a.work==='emp'||a.work==='part';
+  // type
+  let t;
+  if(!a.recv&&emp) t={k:'A',name:'増やしながら待つ型',s:'待つ',lead:'働きながら年金を育てられる、いちばん選択肢が多いタイプです。「いつから受け取るか」と「iDeCo」で差がつきます。'};
+  else if(a.recv&&emp) t={k:'B',name:'働いて上乗せ型',s:'上乗せ',lead:'年金を受け取りながら働くタイプです。働いた分が毎年の年金に上乗せされ、年末調整でも戻るお金があります。'};
+  else if(!a.recv) t={k:'C',name:'受け取り方で差がつく型',s:'受取方',lead:'会社の厚生年金に入っていないタイプです。年金をいつから、どう受け取るかの選び方で、一生の受取額が変わります。'};
+  else t={k:'D',name:'取りこぼさない型',s:'取戻',lead:'年金を受け取りながら暮らすタイプです。申告や届け出をすれば戻る・もらえるお金を、確実に受け取ることが大切です。'};
+  out.type=t;
+
+  // 1. 在職定時改定 / 厚生年金で増える
+  if(emp&&a.age<70&&a.pay){
+    const v=Math.min(a.pay*10000,650000)*5.481/1000*12;
+    out.items.push({tag:'働いて増える',h:'厚生年金に入って1年働くと、年金が',v:v,unit:'円／年 増える',
+      p:a.age>=65?'65歳以降は毎年9月1日が基準日。10月分から増え、12月15日の振り込みから反映されます（在職定時改定）。':'ここまで働いた分は、65歳から受け取る厚生年金にそのまま加わります。65歳以降も、働いた1年ごとに毎年増えます。',
+      doc:'<b>見る書類：</b>ねんきん定期便の「これまでの加入実績に応じた年金額」と、毎年の増え方を比べる'});
+    out.sum+=v;
+  }
+  // 2. 繰下げ（基礎年金だけ）
+  if(!a.recv){
+    const B=a.kiso||800000, old=a.age>=70, rate=old?0.84:0.42, v=B*rate;
+    out.items.push({tag:'受け取り方',h:`老齢基礎年金だけを${old?'75':'70'}歳まで繰り下げると`,v:v,unit:`円／年 増える（${old?84:42}%増）`,
+      p:`受け取り始めてから11年11か月（${old?'86':'81'}歳11か月ごろ）で、65歳から受け取った場合の合計を上回ります。厚生年金は65歳から受け取れるので、待つ間も収入が途切れません。`,
+      doc:'<b>出す書類：</b>65歳の約3か月前に届く「年金請求書」の「受取開始時期の選択」欄で、老齢基礎年金を「繰り下げる」にする',sep:true});
+    out.defer=v;
+  }
+  // 3. iDeCo
+  if(a.age<70){
+    if(a.recv){
+      out.items.push({info:true,tag:'iDeCo',h:'iDeCoの掛金',txt:'今は出せません',p:'老齢基礎年金を受け取っている間は、iDeCoに新しく掛金を出すことはできません。今ある資産は運用を続けられます。'});
+    }else if(emp){
+      const cur=a.ideco||0;
+      if(cur>0){
+        const s=saving(a,cur), s2=saving(a,40000)-s;
+        out.items.push({tag:'iDeCo',h:`今の掛金（月${(cur/10000).toFixed(cur%10000?1:0)}万円）で、税金が`,v:s,unit:'円／年 軽くなる',
+          p:`12月分の掛金から、企業年金のない会社員の上限は月6.2万円に上がり、70歳になるまで加入できます。月4万円にすると、さらに年 約${yen(s2)}円 軽くなる目安です。`,
+          doc:'<b>出す書類：</b>掛金を変えるときは、iDeCoの金融機関に「加入者掛金額変更届」。12月分は2027年1月26日の引き落とし'});
+        out.sum+=s;
+      }else{
+        const s=saving(a,20000);
+        out.items.push({tag:'iDeCo',h:'iDeCoを月2万円で始めると、税金が',v:s,unit:'円／年 軽くなる',
+          p:'2026年12月から、厚生年金に入って働く方は70歳になるまでiDeCoに加入できます（老齢基礎年金を受け取っていないことが条件）。掛金は全額が所得控除になります。',
+          doc:'<b>確認すること：</b>会社に企業年金があるか（上限額が変わります）'});
+      }
+    }else if(a.work!=='none'&&a.ideco>0){
+      const s=saving(a,a.ideco);
+      out.items.push({tag:'iDeCo',h:'今のiDeCoで、税金が',v:s,unit:'円／年 軽くなる',
+        p:'厚生年金に入っていない60代でも、2026年12月からは「これまでiDeCoに入っていた」「老齢基礎年金を受け取っていない」などの条件を満たせば、70歳になるまで続けられます。',
+        doc:'<b>出す書類：</b>60歳以降に続けるには「継続加入の申出」が必要な場合があります。金融機関に確認'});
+      out.sum+=s;
+    }else if(a.ideco>0){
+      out.items.push({info:true,tag:'iDeCo',h:'iDeCoの掛金',txt:'働いていない場合は条件つき',p:'これまで加入していて、老齢基礎年金を受け取っていない方は、70歳になるまで続けられる場合があります（継続加入の申出が必要）。'});
+    }
+  }
+  // 4. 年末調整
+  if(salaried&&a.pay){
+    const c=a.recv?0:(a.ideco||0), v=taxes(a,c,7).it-taxes(a,c,8).it;
+    out.items.push({tag:'12月に戻る',h:'今年の年末調整で、所得税が',v:v,unit:'円 戻る目安',
+      p:v>0?'2026年分から基礎控除などが引き上げられました。毎月の給料から引かれた税金は古い計算のままなので、差額が12月の年末調整で戻ります。':'今の収入では、もともと所得税がほとんどかからないため、戻る額はわずかです。',
+      doc:'<b>出す書類：</b>会社から配られる「基礎控除申告書」と「扶養控除等申告書」。配偶者がいる方は「配偶者控除等申告書」も'});
+    out.sum+=v;
+  }
+  if(!out.items.length||a.work==='none'){
+    out.items.push({info:true,tag:'もらい忘れ',h:'年金の届く書類',txt:'3つを確認',p:'「年金の扶養親族等申告書」（10月ごろ届く）、医療費控除の確定申告（5年さかのぼれる）、年金生活者支援給付金の請求書。届いたら捨てずに中を見てください。'});
+  }
+
+  // todo
+  const T={
+    A:['ねんきん定期便で「老齢基礎年金」と「老齢厚生年金」の見込額を、別々にメモする','iDeCoの掛金を12月分から変えるか決めて、金融機関に変更届を出す','年金請求書が届いたら「受取開始時期の選択」で、基礎年金だけ繰り下げるか決める'],
+    B:['12月の振り込み通知で、10月分から年金が増えたかを確認する','給料と厚生年金の月額の合計が65万円を超えていないか確認する（超えると一部停止）','年末調整の申告書を出し、1月の源泉徴収票で戻った額を確認する'],
+    C:['ねんきん定期便で「老齢基礎年金」と「老齢厚生年金」の見込額を、別々にメモする','iDeCoを続けたい方は、金融機関に「継続加入の申出」が必要か確認する','年金請求書が届いたら「受取開始時期の選択」で、繰り下げるか決める'],
+    D:['10月ごろ届く「年金の扶養親族等申告書」を出す（配偶者がいる方は控除が受けられる）','医療費の領収書と「医療費のお知らせ」を家族の分も保管する','年金生活者支援給付金の請求書が届いていたら、期限までに出す']
+  };
+  out.todo=T[t.k];
+  return out;
+}
+
+/* ---------- 画面 ---------- */
+const app=document.getElementById('app');
+let ans={}, idx=0, hist=[];
+const visible=()=>Q.filter(q=>!(q.skip&&q.skip(ans)));
+
+function mini(){
+  const r=compute({age:62,recv:false,work:'emp',pay:35,ideco:23000,spouse:1,kiso:800000});
+  const pick=r.items.filter(i=>!i.info).slice(0,4);
+  document.getElementById('mini').innerHTML=pick.map(i=>`<div><small>${i.tag}</small><strong>${yen(i.v)}</strong>円</div>`).join('');
+}
+mini();
+document.getElementById('start').addEventListener('click',()=>{ans={};hist=[];idx=0;showQ();});
+
+function showQ(){
+  const qs=visible(); const q=qs[idx]; if(!q){showResult();return;}
+  const qt=typeof q.q==='function'?q.q(ans):q.q;
+  const pct=Math.round(idx/qs.length*100);
+  app.innerHTML=`<section class="board" aria-live="polite">
+    <div class="prog"><span>質問 ${idx+1}／${qs.length}</span><div class="bar"><i style="width:${pct}%"></i></div></div>
+    <h2 class="qtext">${qt}</h2>${q.note?`<div class="qnote">${q.note}</div>`:''}
+    <div class="opts">${q.opts.map((o,i)=>`<button type="button" class="opt${ans[q.id]===o[1]?' on':''}" data-i="${i}">${o[0]}</button>`).join('')}</div>
+    ${q.custom?`<div class="custom"><label for="cv">ぴったりの金額で計算：</label><input id="cv" type="number" inputmode="numeric" min="1" max="200" placeholder="例 22"><span>万円</span><button type="button" id="cvb">この金額で次へ</button></div>`:''}
+    ${idx>0?'<button type="button" class="back" id="back">← ひとつ前に戻る</button>':''}
+  </section>`;
+  app.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{ans[q.id]=q.opts[+b.dataset.i][1];next();}));
+  const bk=document.getElementById('back'); if(bk)bk.addEventListener('click',()=>{idx--;showQ();});
+  const cvb=document.getElementById('cvb');
+  if(cvb)cvb.addEventListener('click',()=>{const v=parseFloat(document.getElementById('cv').value);
+    if(!(v>0&&v<=200)){document.getElementById('cv').focus();return;} ans[q.id]=v;next();});
+  app.querySelector('.opt').focus({preventScroll:true}); window.scrollTo(0,0);
+}
+function next(){idx++;showQ();}
+
+const ageLabel=a=>({60:'60〜61歳',62:'62〜63歳',64:'64歳',65:'65〜69歳',70:'70歳以上'})[a];
+const workLabel={emp:'厚生年金に入って働く',part:'パート（厚生年金なし）',self:'自営業',none:'働いていない'};
+
+function showResult(){
+  const r=compute(ans), t=r.type;
+  const who=`${ageLabel(ans.age)}・${workLabel[ans.work]}${ans.pay?`・月${ans.pay}万円`:''}${ans.recv?'・年金受給中':''}`;
+  const cards=r.items.map(i=>i.info?
+    `<div class="card info"><h3><span class="tag">${i.tag}</span>${i.h}</h3><div class="num">${i.txt}</div><p>${i.p}</p></div>`:
+    `<div class="card"><h3><span class="tag">${i.tag}</span>${i.h}</h3><div class="num">約${yen(i.v)}<span>${i.unit}</span></div><p>${i.p}</p>${i.doc?`<div class="doc">${i.doc}</div>`:''}</div>`).join('');
+  const href=FORM_URL||'#';
+  app.innerHTML=`<section class="board">
+    <div class="kicker">診断結果</div>
+    <div class="rhead"><div><h2>あなたは<br>「${t.name}」</h2></div>
+      <div class="stamp" aria-hidden="true"><span>回覧板</span><small>診断済</small><b>${t.s}</b></div></div>
+    <p>${t.lead}</p>
+    <div class="who">${who}</div>
+    ${r.sum>0?`<div class="total"><small>今年〜来年に「増える・戻る」お金の目安（1年分の合計）</small><strong>約${yen(r.sum)}<span>円</span></strong><p>下の「受け取り方」の金額は、繰り下げた場合の1年あたりの増額なので、この合計には入れていません。</p></div>`:''}
+    <div class="cards">${cards}</div>
+    <h3 class="sec">あなたがやること3つ</h3>
+    <ol class="todo">${r.todo.map(x=>`<li><span>${x}</span></li>`).join('')}</ol>
+    <div class="cta">
+      <h3>「${t.name}」の方へ　無料プレゼント</h3>
+      <ul>
+        <li>何歳から受け取るといくら？「受け取り開始年齢 早見表」</li>
+        <li>いつ何が届くかわかる「年金カレンダー」ほか、全8つの特典（印刷用16ページ）</li>
+        <li>メールでは、動画では公開していない、お金と資産形成のヒントになる最新情報をお届けします</li>
+      </ul>
+      <a class="btn mt" href="${href}" target="_blank" rel="noopener">メールアドレスだけで受け取る</a>
+      <div class="trust">登録は無料・30秒。口座番号・暗証番号・マイナンバーをお聞きすることは一切ありません。配信はいつでも解除できます。</div>
+    </div>
+    <div class="ctl"><button type="button" id="again">もう一度診断する</button><button type="button" id="fix">答えを直す</button></div>
+    <div class="fine">
+      <p>※この診断は、2026年10月時点の制度にもとづく一般的な目安です。給料はボーナスなし、社会保険料は概算、税金は所得税（復興特別所得税を含む）と住民税の所得割で計算しています。年金を受け取りながら働く方は、年金の所得も合わせて税金が決まるため、実際の額は変わります。</p>
+      <p>※繰下げると、年金額に応じて税金や介護保険料なども変わることがあります。個別のご相談は、年金事務所や税務署、お勤め先にご確認ください。</p>
+      <p>出典：日本年金機構、国税庁、厚生労働省、国民年金基金連合会（iDeCo公式サイト）の公表資料</p>
+    </div>
+  </section>`;
+  document.getElementById('again').addEventListener('click',()=>{ans={};idx=0;showQ();});
+  document.getElementById('fix').addEventListener('click',()=>{idx=0;showQ();});
+  window.scrollTo(0,0);
+}
+</script>
+
+</body>
+</html>
