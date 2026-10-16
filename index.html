@@ -11,36 +11,42 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Zen+Maru+Gothic:wght@700;900&display=swap">
 <style>
-/* Layout: one narrow column like a 回覧板 clipboard — header band, then one question per board, result board with a stamp */
+/* Layout: one calm column on pale mint — green header band, white cards, a piggy-bank illustration in the hero */
 :root{
-  --paper:#fbf6ee; --board:#ffffff; --ink:#1c2b40; --navy:#1f3a5f; --sub:#5b6878;
-  --accent:#d9822b; --accent-ink:#ffffff; --stamp:#d63031; --hi:#ffd400; --hi-ink:#1c2b40;
-  --line:#e6dccb; --mark:#ffeaa0; --soft:#f4ece0; --good:#2f7d4f;
+  --paper:#f2f7f3; --board:#ffffff; --ink:#1d3328; --navy:#1d6a4d; --sub:#5a7066;
+  --accent:#23845c; --accent-ink:#ffffff; --stamp:#1d6a4d; --hi:#f2b632; --hi-ink:#1d3328;
+  --line:#d8e8de; --mark:#cfeedd; --soft:#e9f4ed; --good:#23845c;
+  --band:#1d6a4d; --band-ink:#ffffff; --coin:#f2b632; --coin-dk:#c98a12; --pig:#f5bcc6; --pig-dk:#d98797;
+  --shadow:0 2px 10px rgba(29,106,77,.08);
   --f-disp:"Zen Maru Gothic","Hiragino Maru Gothic ProN","BIZ UDPGothic",sans-serif;
   --f-body:"BIZ UDPGothic","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --paper:#111824; --board:#1a2433; --ink:#eef2f7; --navy:#8fb3dd; --sub:#a6b2c2;
-  --accent:#f0a04b; --accent-ink:#1a1206; --stamp:#ff6b6b; --hi:#ffd400; --hi-ink:#1c2b40;
-  --line:#2c3a4e; --mark:rgba(240,160,75,.35); --soft:#222e40; --good:#6fcf97; color-scheme:dark}}
+  --paper:#0f1a15; --board:#16241d; --ink:#e8f2ec; --navy:#7fd1a8; --sub:#9db5a9;
+  --accent:#4fbf8a; --accent-ink:#0b1a12; --stamp:#7fd1a8; --hi:#f2c14e; --hi-ink:#1d3328;
+  --line:#25392f; --mark:rgba(79,191,138,.3); --soft:#1c2e25; --good:#6fd39f;
+  --band:#143d2d; --band-ink:#e8f2ec; --coin:#f2c14e; --coin-dk:#b8860b; --pig:#e9a9b5; --pig-dk:#c47a89;
+  --shadow:none; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --paper:#111824; --board:#1a2433; --ink:#eef2f7; --navy:#8fb3dd; --sub:#a6b2c2;
-  --accent:#f0a04b; --accent-ink:#1a1206; --stamp:#ff6b6b; --hi:#ffd400; --hi-ink:#1c2b40;
-  --line:#2c3a4e; --mark:rgba(240,160,75,.35); --soft:#222e40; --good:#6fcf97; color-scheme:dark}
+  --paper:#0f1a15; --board:#16241d; --ink:#e8f2ec; --navy:#7fd1a8; --sub:#9db5a9;
+  --accent:#4fbf8a; --accent-ink:#0b1a12; --stamp:#7fd1a8; --hi:#f2c14e; --hi-ink:#1d3328;
+  --line:#25392f; --mark:rgba(79,191,138,.3); --soft:#1c2e25; --good:#6fd39f;
+  --band:#143d2d; --band-ink:#e8f2ec; --coin:#f2c14e; --coin-dk:#b8860b; --pig:#e9a9b5; --pig-dk:#c47a89;
+  --shadow:none; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.75;margin:0}
 .wrap{max-width:620px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
-.band{background:#1f3a5f;color:#fbf6ee}
+.band{background:var(--band);color:var(--band-ink)}
 .band .wrap{padding-block:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .band b{font-family:var(--f-disp);font-size:16px;letter-spacing:.04em}
 .band span{font-size:13px;opacity:.85}
 
 h1,h2,h3{font-family:var(--f-disp);text-wrap:balance;margin:0;line-height:1.35}
-.board{background:var(--board);border:2px solid var(--line);border-radius:14px;padding:28px 22px 24px;position:relative;margin-top:34px}
-.board::before{content:"";position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:110px;height:26px;border-radius:8px;background:var(--navy);box-shadow:inset 0 -4px 0 rgba(0,0,0,.18)}
+.board{background:var(--board);border:1px solid var(--line);border-radius:18px;padding:26px 22px 24px;position:relative;margin-top:24px;box-shadow:var(--shadow)}
 .kicker{font-size:14px;letter-spacing:.12em;color:var(--accent);font-weight:700}
-.hero h1{font-size:clamp(30px,8vw,42px);color:var(--navy);margin-top:6px}
+.hero h1{font-size:clamp(24px,7vw,42px);color:var(--navy);margin-top:6px}
+.hero h1 em{white-space:nowrap}
 .hero h1 em{font-style:normal;background:linear-gradient(transparent 70%,var(--mark) 70%);color:var(--navy)}
 .hero p{margin:14px 0 0}
 .facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
@@ -64,7 +70,7 @@ h1,h2,h3{font-family:var(--f-disp);text-wrap:balance;margin:0;line-height:1.35}
 .qtext{font-size:clamp(24px,6.4vw,30px);color:var(--ink);margin-top:16px}
 .qnote{font-size:15px;color:var(--sub);margin-top:8px}
 .opts{display:grid;gap:12px;margin-top:20px}
-.opt{display:block;width:100%;text-align:left;min-height:64px;padding:14px 18px;border-radius:12px;border:2px solid var(--line);background:var(--board);color:var(--ink);font:700 20px/1.45 var(--f-body);cursor:pointer}
+.opt{display:block;width:100%;text-align:left;min-height:64px;padding:14px 18px;border-radius:14px;border:2px solid var(--line);background:var(--board);color:var(--ink);font:700 20px/1.45 var(--f-body);cursor:pointer}
 .opt:hover{border-color:var(--accent)}
 .opt.on{border-color:var(--accent);background:var(--soft)}
 .custom{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px;font-size:16px;color:var(--sub)}
@@ -86,7 +92,7 @@ h1,h2,h3{font-family:var(--f-disp);text-wrap:balance;margin:0;line-height:1.35}
 .total strong span{font-size:.45em}
 .total p{margin:6px 0 0;font-size:14px;opacity:.9;line-height:1.6}
 .cards{display:grid;gap:14px;margin-top:18px}
-.card{border:2px solid var(--line);border-radius:12px;padding:16px 18px;min-width:0}
+.card{border:1px solid var(--line);background:var(--board);border-radius:14px;padding:16px 18px;min-width:0}
 .card h3{font-size:19px;color:var(--ink);display:flex;gap:10px;align-items:baseline}
 .card h3 .tag{font-family:var(--f-body);font-size:13px;font-weight:700;color:var(--accent);border:1.5px solid var(--accent);border-radius:6px;padding:0 6px;white-space:nowrap}
 .num{font-size:clamp(30px,8.6vw,40px);font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums;line-height:1.3;margin-top:6px}
@@ -99,7 +105,7 @@ h3.sec{font-size:22px;color:var(--navy);margin-top:28px}
 ol.todo{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:10px;counter-reset:t}
 ol.todo li{counter-increment:t;display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:start;font-size:17px}
 ol.todo li::before{content:counter(t);width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:700 19px/36px var(--f-body);text-align:center}
-.cta{margin-top:30px;border:3px solid var(--accent);border-radius:14px;padding:20px 18px;background:var(--soft)}
+.cta{margin-top:30px;border:2px solid var(--accent);border-radius:18px;padding:20px 18px;background:var(--soft);position:relative}
 .cta-k{font-size:14px;font-weight:700;letter-spacing:.08em;color:var(--accent)}
 .cta h3{font-size:22px;color:var(--ink);margin-top:4px}
 .gift{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px}
@@ -114,7 +120,17 @@ ol.todo li::before{content:counter(t);width:36px;height:36px;border-radius:50%;b
 .ctl button{flex:1;min-height:52px;border-radius:10px;border:2px solid var(--navy);background:transparent;color:var(--navy);font:700 17px var(--f-body);cursor:pointer}
 .fine{font-size:13px;color:var(--sub);margin-top:26px;line-height:1.7}
 .fine p{margin:0 0 6px}
-@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+.hero-top{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.pigart{width:clamp(104px,28vw,150px);height:auto;display:block}
+.pig-b{fill:var(--pig)} .pig-d{fill:var(--pig-dk)} .pig-e{fill:var(--ink)} .pig-l{fill:none;stroke:var(--pig-dk);stroke-width:4;stroke-linecap:round}
+.coin-f{fill:var(--coin)} .coin-s{fill:var(--coin-dk)} .coin-t{fill:var(--board);font:700 20px var(--f-body)}
+.leaf{fill:var(--accent);opacity:.9}
+.drop{animation:drop 2.4s ease-in-out infinite;transform-box:fill-box}
+@keyframes drop{0%,20%{transform:translateY(0)}55%{transform:translateY(16px)}56%,100%{transform:translateY(0)}}
+.coins{display:inline-flex;gap:0;vertical-align:middle;margin-right:6px}
+.coins svg{width:28px;height:28px}
+.cta-pig{position:absolute;right:12px;top:-30px;width:64px;height:auto}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}.drop{animation:none}}
 @media (max-width:400px){.board{padding:26px 16px 20px}.stamp{width:80px;height:80px}.stamp b{font-size:20px}}
 </style>
 </head>
@@ -125,8 +141,23 @@ ol.todo li::before{content:counter(t);width:36px;height:36px;border-radius:50%;b
 
 <main class="wrap" id="app">
   <section class="board hero" id="intro">
+    <div class="hero-top"><div>
     <div class="kicker">7つの質問・約1分</div>
     <h1>50代・60代の<br><em>お金タイプ診断</em></h1>
+    </div>
+    <svg class="pigart" viewBox="0 0 170 150" role="img" aria-label="コインを入れる貯金箱のイラスト">
+      <g class="drop"><circle class="coin-s" cx="86" cy="22" r="17"/><circle class="coin-f" cx="84" cy="20" r="17"/><text class="coin-t" x="84" y="27" text-anchor="middle">¥</text></g>
+      <path class="leaf" d="M140 34c-16 0-24 10-24 22 14 0 24-8 24-22z"/>
+      <path class="pig-d" d="M48 66l-8-24 26 14z"/>
+      <rect class="pig-d" x="52" y="118" width="16" height="22" rx="6"/><rect class="pig-d" x="100" y="118" width="16" height="22" rx="6"/>
+      <ellipse class="pig-b" cx="84" cy="96" rx="58" ry="40"/>
+      <rect class="pig-d" x="70" y="58" width="30" height="7" rx="3.5"/>
+      <ellipse class="pig-d" cx="141" cy="98" rx="14" ry="12"/>
+      <circle class="pig-e" cx="137" cy="96" r="2.6"/><circle class="pig-e" cx="145" cy="96" r="2.6"/>
+      <circle class="pig-e" cx="118" cy="84" r="4"/>
+      <path class="pig-l" d="M27 92c-10-2-12 8-4 10s4 10-6 8"/>
+    </svg>
+    </div>
     <p>年金を受け取る前に決めること、今年の年末に戻るお金。まだ60歳前の方も、今の年齢と働き方から<b>「あなたの場合はいくら」</b>を出します。</p>
     <div class="facts"><span>繰下げ</span><span>働いて増える年金</span><span>iDeCo</span><span>年末調整</span></div>
     <button class="btn mt" id="start" type="button">診断をはじめる</button>
@@ -330,11 +361,23 @@ function showResult(){
       <div class="stamp" aria-hidden="true"><span>回覧板</span><small>診断済</small><b>${t.s}</b></div></div>
     <p>${t.lead}</p>
     <div class="who">${who}</div>
-    ${r.sum>0?`<div class="total"><small>今年〜来年に「増える・戻る」お金の目安（1年分の合計）</small><strong>約${yen(r.sum)}<span>円</span></strong><p>下の「受け取り方」の金額は、繰り下げた場合の1年あたりの増額なので、この合計には入れていません。</p></div>`:''}
+    ${r.sum>0?`<div class="total"><small><span class="coins"><svg viewBox="0 0 40 40" aria-hidden="true"><circle class="coin-s" cx="21" cy="21" r="16"/><circle class="coin-f" cx="19" cy="19" r="16"/><text class="coin-t" x="19" y="26" text-anchor="middle">¥</text></svg><svg viewBox="0 0 40 40" aria-hidden="true"><circle class="coin-s" cx="21" cy="21" r="16"/><circle class="coin-f" cx="19" cy="19" r="16"/><text class="coin-t" x="19" y="26" text-anchor="middle">¥</text></svg></span>今年〜来年に「増える・戻る」お金の目安（1年分の合計）</small><strong>約${yen(r.sum)}<span>円</span></strong><p>下の「受け取り方」の金額は、繰り下げた場合の1年あたりの増額なので、この合計には入れていません。</p></div>`:''}
     <div class="cards">${cards}</div>
     <h3 class="sec">あなたがやること3つ</h3>
     <ol class="todo">${r.todo.map(x=>`<li><span>${x}</span></li>`).join('')}</ol>
     <div class="cta">
+      <svg class="cta-pig" viewBox="0 0 170 150" aria-hidden="true">
+      <g><circle class="coin-s" cx="86" cy="22" r="17"/><circle class="coin-f" cx="84" cy="20" r="17"/><text class="coin-t" x="84" y="27" text-anchor="middle">¥</text></g>
+      <path class="leaf" d="M140 34c-16 0-24 10-24 22 14 0 24-8 24-22z"/>
+      <path class="pig-d" d="M48 66l-8-24 26 14z"/>
+      <rect class="pig-d" x="52" y="118" width="16" height="22" rx="6"/><rect class="pig-d" x="100" y="118" width="16" height="22" rx="6"/>
+      <ellipse class="pig-b" cx="84" cy="96" rx="58" ry="40"/>
+      <rect class="pig-d" x="70" y="58" width="30" height="7" rx="3.5"/>
+      <ellipse class="pig-d" cx="141" cy="98" rx="14" ry="12"/>
+      <circle class="pig-e" cx="137" cy="96" r="2.6"/><circle class="pig-e" cx="145" cy="96" r="2.6"/>
+      <circle class="pig-e" cx="118" cy="84" r="4"/>
+      <path class="pig-l" d="M27 92c-10-2-12 8-4 10s4 10-6 8"/>
+    </svg>
       <div class="cta-k">診断の続き・無料プレゼント</div>
       <h3>「${t.name}」の方へ<br>${G[t.k].h}</h3>
       <ol class="gift">${G[t.k].g.map(([n,ti,w])=>`<li><span class="no">特典${n}</span><div><b>${ti}</b><small>${w}</small></div></li>`).join('')}</ol>
