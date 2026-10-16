@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="7つの質問で、働く60代の年金・税金タイプと「あなたの場合はいくら」がわかる無料診断。">
-<title>働く60代のお金タイプ診断</title>
+<meta name="description" content="7つの質問で、50代・60代の年金・税金タイプと「あなたの場合はいくら」がわかる無料診断。">
+<title>50代・60代のお金タイプ診断</title>
 <style>[hidden]{display:none!important}img{max-width:100%}</style>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -119,8 +119,8 @@ ol.todo li::before{content:counter(t);width:36px;height:36px;border-radius:50%;b
 <main class="wrap" id="app">
   <section class="board hero" id="intro">
     <div class="kicker">7つの質問・約1分</div>
-    <h1>働く60代の<br><em>お金タイプ診断</em></h1>
-    <p>年金を受け取る前に決めること、今年の年末に戻るお金。あなたの年齢と働き方から、<b>「あなたの場合はいくら」</b>を出します。</p>
+    <h1>50代・60代の<br><em>お金タイプ診断</em></h1>
+    <p>年金を受け取る前に決めること、今年の年末に戻るお金。まだ60歳前の方も、今の年齢と働き方から<b>「あなたの場合はいくら」</b>を出します。</p>
     <div class="facts"><span>繰下げ</span><span>働いて増える年金</span><span>iDeCo</span><span>年末調整</span></div>
     <button class="btn mt" id="start" type="button">診断をはじめる</button>
     <div class="sample">
@@ -136,9 +136,9 @@ ol.todo li::before{content:counter(t);width:36px;height:36px;border-radius:50%;b
 const FORM_URL = 'https://1lejend.com/stepmail/kd.php?no=fylTIRnMmke';
 
 const Q = [
-  {id:'age', q:'今の年齢は？', opts:[['60〜61歳',60],['62〜63歳',62],['64歳',64],['65〜69歳',65],['70歳以上',70]]},
+  {id:'age', q:'今の年齢は？', opts:[['50歳未満',45],['50〜54歳',50],['55〜59歳',55],['60〜61歳',60],['62〜63歳',62],['64歳',64],['65〜69歳',65],['70歳以上',70]]},
   {id:'recv', q:'老齢基礎年金（国民年金）を、もう受け取っていますか？',
-   note:'65歳前の「特別支給の老齢厚生年金」だけを受け取っている方は「まだ」を選んでください。',
+   note:'65歳前の「特別支給の老齢厚生年金」だけを受け取っている方は「まだ」を選んでください。', skip:a=>a.age<60,
    opts:[['まだ受け取っていない',false],['受け取っている（繰上げを含む）',true]]},
   {id:'work', q:'今の働き方は？', opts:[['会社員・パート（厚生年金に入っている）','emp'],['パート・アルバイト（厚生年金に入っていない）','part'],['自営業・フリーランス','self'],['今は働いていない','none']]},
   {id:'pay', q:a=>a.work==='self'?'月の所得（売上から経費を引いた額）は？':'月の給料（額面・税金が引かれる前）は？',
@@ -148,7 +148,7 @@ const Q = [
    opts:[['入っていない',0],['月1万円くらい',10000],['月2万円くらい',20000],['月2万3千円（今の上限）',23000]]},
   {id:'spouse', q:'配偶者（夫・妻）は？', opts:[['いない',0],['いる（収入なし、またはパートで年136万円以下）',1],['いる（それより収入が多い）',2]]},
   {id:'kiso', q:'ねんきん定期便の「老齢基礎年金」の見込額（年額）は？',
-   note:'50歳以上の方のねんきん定期便の「老齢年金の種類と見込額」の表にあります。',
+   note:a=>a.age<50?'50歳未満の方の定期便は「これまでの加入実績」の金額なので、実際はもっと増えます。迷ったら「わからない」を選んでください。':'50歳以上の方のねんきん定期便の「老齢年金の種類と見込額」の表にあります。',
    skip:a=>a.recv, opts:[['約80万円（ほぼ満額）',800000],['約70万円',700000],['約60万円',600000],['わからない（80万円で計算）',800000]]}
 ];
 
@@ -179,8 +179,10 @@ function compute(a){
   const out={items:[],todo:[],sum:0};
   const emp=a.work==='emp', salaried=a.work==='emp'||a.work==='part';
   // type
-  let t;
-  if(!a.recv&&emp) t={k:'A',name:'増やしながら待つ型',s:'待つ',lead:'働きながら年金を育てられる、いちばん選択肢が多いタイプです。「いつから受け取るか」と「iDeCo」で差がつきます。'};
+  let t; const young=a.age<60;
+  if(young&&emp) t={k:'E',name:'今から仕込む型',s:'仕込む',lead:'まだ60歳前で、厚生年金に入って働くタイプです。今の働き方とiDeCoの使い方が、60代からの年金と手取りをそのまま決めます。'};
+  else if(young) t={k:'F',name:'土台づくり型',s:'土台',lead:'会社の厚生年金に入っていないタイプです。国民年金に上乗せできる仕組み（iDeCo・付加年金）を、60歳前のうちに使えるかで差がつきます。'};
+  else if(!a.recv&&emp) t={k:'A',name:'増やしながら待つ型',s:'待つ',lead:'働きながら年金を育てられる、いちばん選択肢が多いタイプです。「いつから受け取るか」と「iDeCo」で差がつきます。'};
   else if(a.recv&&emp) t={k:'B',name:'働いて上乗せ型',s:'上乗せ',lead:'年金を受け取りながら働くタイプです。働いた分が毎年の年金に上乗せされ、年末調整でも戻るお金があります。'};
   else if(!a.recv) t={k:'C',name:'受け取り方で差がつく型',s:'受取方',lead:'会社の厚生年金に入っていないタイプです。年金をいつから、どう受け取るかの選び方で、一生の受取額が変わります。'};
   else t={k:'D',name:'取りこぼさない型',s:'取戻',lead:'年金を受け取りながら暮らすタイプです。申告や届け出をすれば戻る・もらえるお金を、確実に受け取ることが大切です。'};
@@ -220,6 +222,12 @@ function compute(a){
           p:'2026年12月から、厚生年金に入って働く方は70歳になるまでiDeCoに加入できます（老齢基礎年金を受け取っていないことが条件）。掛金は全額が所得控除になります。',
           doc:'<b>確認すること：</b>会社に企業年金があるか（上限額が変わります）'});
       }
+    }else if(young&&a.work!=='none'){
+      const cur=a.ideco||0, s=saving(a,cur||20000);
+      out.items.push({tag:'iDeCo',h:cur?'今のiDeCoで、税金が':'iDeCoを月2万円で始めると、税金が',v:s,unit:'円／年 軽くなる',
+        p:'60歳になるまでは、自営業やパートの方もiDeCoに加入できます。掛金は全額が所得控除になり、自営業の方は会社員より上限が大きく設定されています。',
+        doc:'<b>確認すること：</b>国民年金の保険料を納めているか（免除中は加入できない場合があります）'});
+      if(cur)out.sum+=s;
     }else if(a.work!=='none'&&a.ideco>0){
       const s=saving(a,a.ideco);
       out.items.push({tag:'iDeCo',h:'今のiDeCoで、税金が',v:s,unit:'円／年 軽くなる',
@@ -238,7 +246,10 @@ function compute(a){
       doc:'<b>出す書類：</b>会社から配られる「基礎控除申告書」と「扶養控除等申告書」。配偶者がいる方は「配偶者控除等申告書」も'});
     out.sum+=v;
   }
-  if(!out.items.length||a.work==='none'){
+  if(young&&!emp){
+    out.items.push({info:true,tag:'国民年金',h:'月400円の「付加保険料」を納めると',txt:'1年で 年2,400円増',p:'65歳からの年金が「200円×納めた月数」ずつ増えます。1年分（4,800円）で年2,400円増え、2年受け取れば元が取れます。国民年金の保険料を自分で納めている方が対象です（国民年金基金に入っている方は除く）。',});
+  }
+  if(!young&&(!out.items.length||a.work==='none')){
     out.items.push({info:true,tag:'もらい忘れ',h:'年金の届く書類',txt:'3つを確認',p:'「年金の扶養親族等申告書」（10月ごろ届く）、医療費控除の確定申告（5年さかのぼれる）、年金生活者支援給付金の請求書。届いたら捨てずに中を見てください。'});
   }
 
@@ -247,6 +258,8 @@ function compute(a){
     A:['ねんきん定期便で「老齢基礎年金」と「老齢厚生年金」の見込額を、別々にメモする','iDeCoの掛金を12月分から変えるか決めて、金融機関に変更届を出す','年金請求書が届いたら「受取開始時期の選択」で、基礎年金だけ繰り下げるか決める'],
     B:['12月の振り込み通知で、10月分から年金が増えたかを確認する','給料と厚生年金の月額の合計が65万円を超えていないか確認する（超えると一部停止）','年末調整の申告書を出し、1月の源泉徴収票で戻った額を確認する'],
     C:['ねんきん定期便で「老齢基礎年金」と「老齢厚生年金」の見込額を、別々にメモする','iDeCoを続けたい方は、金融機関に「継続加入の申出」が必要か確認する','年金請求書が届いたら「受取開始時期の選択」で、繰り下げるか決める'],
+    E:['誕生月に届く「ねんきん定期便」で、年金の見込額をメモする','iDeCoの掛金を12月分から増やせるか確認する（企業年金のない会社員は上限が月6.2万円に）','新NISAの「生涯1,800万円」の枠を、60代までにどう使うか決める'],
+    F:['誕生月に届く「ねんきん定期便」で、年金の見込額をメモする','国民年金を自分で納めている方は、市区町村の窓口か年金事務所で「付加保険料」を申し込む','iDeCoに入っていない方は、60歳になる前に加入を検討する（掛金は全額が所得控除）'],
     D:['10月ごろ届く「年金の扶養親族等申告書」を出す（配偶者がいる方は控除が受けられる）','医療費の領収書と「医療費のお知らせ」を家族の分も保管する','年金生活者支援給付金の請求書が届いていたら、期限までに出す']
   };
   out.todo=T[t.k];
@@ -272,7 +285,7 @@ function showQ(){
   const pct=Math.round(idx/qs.length*100);
   app.innerHTML=`<section class="board" aria-live="polite">
     <div class="prog"><span>質問 ${idx+1}／${qs.length}</span><div class="bar"><i style="width:${pct}%"></i></div></div>
-    <h2 class="qtext">${qt}</h2>${q.note?`<div class="qnote">${q.note}</div>`:''}
+    <h2 class="qtext">${qt}</h2>${q.note?`<div class="qnote">${typeof q.note==='function'?q.note(ans):q.note}</div>`:''}
     <div class="opts">${q.opts.map((o,i)=>`<button type="button" class="opt${ans[q.id]===o[1]?' on':''}" data-i="${i}">${o[0]}</button>`).join('')}</div>
     ${q.custom?`<div class="custom"><label for="cv">ぴったりの金額で計算：</label><input id="cv" type="number" inputmode="numeric" min="1" max="200" placeholder="例 22"><span>万円</span><button type="button" id="cvb">この金額で次へ</button></div>`:''}
     ${idx>0?'<button type="button" class="back" id="back">← ひとつ前に戻る</button>':''}
@@ -286,7 +299,7 @@ function showQ(){
 }
 function next(){idx++;showQ();}
 
-const ageLabel=a=>({60:'60〜61歳',62:'62〜63歳',64:'64歳',65:'65〜69歳',70:'70歳以上'})[a];
+const ageLabel=a=>({45:'50歳未満',50:'50〜54歳',55:'55〜59歳',60:'60〜61歳',62:'62〜63歳',64:'64歳',65:'65〜69歳',70:'70歳以上'})[a];
 const workLabel={emp:'厚生年金に入って働く',part:'パート（厚生年金なし）',self:'自営業',none:'働いていない'};
 
 function showResult(){
