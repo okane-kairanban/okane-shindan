@@ -100,7 +100,14 @@ ol.todo{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:10px;counter-
 ol.todo li{counter-increment:t;display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:start;font-size:17px}
 ol.todo li::before{content:counter(t);width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:700 19px/36px var(--f-body);text-align:center}
 .cta{margin-top:30px;border:3px solid var(--accent);border-radius:14px;padding:20px 18px;background:var(--soft)}
-.cta h3{font-size:22px;color:var(--ink)}
+.cta-k{font-size:14px;font-weight:700;letter-spacing:.08em;color:var(--accent)}
+.cta h3{font-size:22px;color:var(--ink);margin-top:4px}
+.gift{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px}
+.gift li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;background:var(--board);border:2px solid var(--line);border-radius:10px;padding:12px 14px}
+.gift .no{font-size:13px;font-weight:700;color:var(--accent-ink);background:var(--accent);border-radius:6px;padding:2px 8px;white-space:nowrap;margin-top:3px}
+.gift b{display:block;font-size:17px;line-height:1.5}
+.gift small{display:block;font-size:15px;color:var(--sub);line-height:1.6;margin-top:2px}
+.cta .plus{font-size:15px;margin:12px 0 0}
 .cta ul{margin:10px 0 0;padding-left:1.2em;font-size:16px}
 .cta .trust{font-size:14px;color:var(--sub);margin-top:10px}
 .ctl{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
@@ -266,6 +273,14 @@ function compute(a){
   return out;
 }
 
+const G={
+  A:{h:'繰り下げで迷わないための3点セット',g:[[4,'受け取り開始年齢 早見表','60歳〜75歳、何歳から受け取ると年いくらになるかが1枚でわかります'],[6,'退職金の手取り 計算シート','退職金とiDeCoを受け取る順番で、手取りがどう変わるかを書き込めます'],[3,'届く書類＆大事な日カレンダー','12月のiDeCo改正から、65歳前に届く年金請求書の時期まで確認できます']]},
+  B:{h:'働きながら受け取る人の3点セット',g:[[3,'届く書類＆大事な日カレンダー','12月の年金の振り込み、年末調整、1月の源泉徴収票まで、届く順にわかります'],[5,'高額療養費 自己負担限度額 早見表','2026年8月からの新しい上限を、年収の区分ごとにまとめています'],[1,'お金の置き場所 整理シート','給料・年金・預金がどこにあるかを1枚に書き出せます']]},
+  C:{h:'受け取り方を決めるための3点セット',g:[[4,'受け取り開始年齢 早見表','60歳〜75歳、何歳から受け取ると年いくらになるかが1枚でわかります'],[1,'お金の置き場所 整理シート','年金・iDeCo・預金を書き出して、待つ間の生活費を確かめられます'],[3,'届く書類＆大事な日カレンダー','年金請求書やiDeCoの手続きの時期を、月ごとに確認できます']]},
+  D:{h:'もらい忘れを防ぐ3点セット',g:[[3,'届く書類＆大事な日カレンダー','扶養親族等申告書、源泉徴収票、支援給付金など、届く書類と期限がわかります'],[5,'高額療養費 自己負担限度額 早見表','2026年8月からの新しい上限を、所得の区分ごとにまとめています'],[8,'家族への伝言ノート','もしもの時の手続きの期限一覧つき。家族と一緒に書き込めます']]},
+  E:{h:'60歳までに仕込むための3点セット',g:[[2,'新NISA 失敗しないための7つの確認ポイント','生涯1,800万円の枠を、60代までにどう使うかの早見表つき'],[6,'退職金の手取り 計算シート','退職金とiDeCoを受け取る順番で、手取りがどう変わるかを書き込めます'],[1,'お金の置き場所 整理シート','預金・NISA・iDeCoを1枚に書き出して、置き場所を見直せます']]},
+  F:{h:'年金の土台をつくる3点セット',g:[[1,'お金の置き場所 整理シート','預金・NISA・iDeCoを1枚に書き出して、置き場所を見直せます'],[2,'新NISA 失敗しないための7つの確認ポイント','生涯1,800万円の枠を、60代までにどう使うかの早見表つき'],[4,'受け取り開始年齢 早見表','60歳〜75歳、何歳から受け取ると年いくらになるかが1枚でわかります']]}
+};
 /* ---------- 画面 ---------- */
 const app=document.getElementById('app');
 let ans={}, idx=0, hist=[];
@@ -320,13 +335,11 @@ function showResult(){
     <h3 class="sec">あなたがやること3つ</h3>
     <ol class="todo">${r.todo.map(x=>`<li><span>${x}</span></li>`).join('')}</ol>
     <div class="cta">
-      <h3>「${t.name}」の方へ　無料プレゼント</h3>
-      <ul>
-        <li>何歳から受け取るといくら？「受け取り開始年齢 早見表」</li>
-        <li>いつ何が届くかわかる「年金カレンダー」ほか、全8つの特典（印刷用16ページ）</li>
-        <li>メールでは、動画では公開していない、お金と資産形成のヒントになる最新情報をお届けします</li>
-      </ul>
-      <a class="btn mt" href="${href}" target="_blank" rel="noopener">メールアドレスだけで受け取る</a>
+      <div class="cta-k">診断の続き・無料プレゼント</div>
+      <h3>「${t.name}」の方へ<br>${G[t.k].h}</h3>
+      <ol class="gift">${G[t.k].g.map(([n,ti,w])=>`<li><span class="no">特典${n}</span><div><b>${ti}</b><small>${w}</small></div></li>`).join('')}</ol>
+      <p class="plus">ほかの特典もあわせて<b>全8つ（印刷用16ページ）</b>をまとめてお届けします。メールでは、動画では公開していない、お金と資産形成のヒントになる最新情報もお届けします。</p>
+      <a class="btn mt" href="${href}" target="_blank" rel="noopener">この3つを含む8大特典を受け取る（無料）</a>
       <div class="trust">登録は無料・30秒。口座番号・暗証番号・マイナンバーをお聞きすることは一切ありません。配信はいつでも解除できます。</div>
     </div>
     <div class="ctl"><button type="button" id="again">もう一度診断する</button><button type="button" id="fix">答えを直す</button></div>
