@@ -108,8 +108,8 @@ a{color:var(--navy)}
 <main class="wrap">
   <section class="board hero">
     <div class="hero-top"><div>
-      <div class="kicker">印刷して使える16ページ</div>
-      <h1>年金・お金の<br><em>8大特典</em>を<br>無料でお届け</h1>
+      <div class="kicker" id="kicker">印刷して使える16ページ</div>
+      <h1 id="h1">年金・お金の<br><em>8大特典</em>を<br>無料でお届け</h1>
     </div>
     <svg class="pigart" viewBox="0 0 170 150" role="img" aria-label="コインを入れる貯金箱のイラスト">
       <g class="drop"><circle class="coin-s" cx="86" cy="22" r="17"/><circle class="coin-f" cx="84" cy="20" r="17"/><text class="coin-t" x="84" y="27" text-anchor="middle">¥</text></g>
@@ -124,13 +124,7 @@ a{color:var(--navy)}
       <path class="pig-l" d="M27 92c-10-2-12 8-4 10s4 10-6 8"/>
     </svg>
     </div>
-    <p>いつ何が届くかわかるカレンダー、何歳から受け取るといくらかの早見表など、動画の数字を<b>手元に残せる1冊</b>にまとめました。</p>
     <div class="facts"><span>無料</span><span>メールアドレスだけ</span><span>30秒</span><span>2026年10月版</span></div>
-
-    <div class="new9">
-      <img src="img/hayami9.jpg" alt="働くと増える年金 早見表のPDF（月給別に1年働くと増える年金、在職老齢年金の判定、加給年金のチェック）" width="372" height="526">
-      <div><span class="newtag">NEW 特典9</span><b>働くと増える年金 早見表</b><small>動画で使った早見表を、印刷用の1枚にしました。月給15万〜50万円で「1年働くと年金はいくら増えるか」、在職老齢年金で止まる・止まらない、加給年金のチェックつき。</small></div>
-    </div>
     <div class="type" id="type" hidden><small>診断の結果</small><b id="typeName"></b><div id="typeLead" style="font-size:15px;margin-top:4px"></div></div>
 
     <form class="form" id="f1" method="post" action="https://1lejend.com/stepmail/kd.php?no=fylTIRnMmke" novalidate>
@@ -147,6 +141,12 @@ a{color:var(--navy)}
         <li>メールの配信は、いつでもワンクリックで止められます</li>
       </ul>
     </form>
+    <p>いつ何が届くかわかるカレンダー、何歳から受け取るといくらかの早見表など、動画の数字を<b>手元に残せる1冊</b>にまとめました。</p>
+
+    <div class="new9" id="new9">
+      <img src="img/hayami9.jpg" alt="働くと増える年金 早見表のPDF（月給別に1年働くと増える年金、在職老齢年金の判定、加給年金のチェック）" width="372" height="526">
+      <div><span class="newtag">NEW 特典9</span><b>働くと増える年金 早見表</b><small>動画で使った早見表を、印刷用の1枚にしました。月給15万〜50万円で「1年働くと年金はいくら増えるか」、在職老齢年金で止まる・止まらない、加給年金のチェックつき。</small></div>
+    </div>
   </section>
 
   <section class="board">
@@ -200,7 +200,11 @@ const ALL=[
  [9,'NEW 働くと増える年金 早見表（1枚）','月給別に1年働くと増える年金、在職老齢年金の判定、加給年金のチェック']
 ];
 const TYPES={A:['増やしながら待つ型',[4,6,3]],B:['働いて上乗せ型',[3,5,1]],C:['受け取り方で差がつく型',[4,1,3]],D:['取りこぼさない型',[3,5,8]],E:['今から仕込む型',[2,6,1]],F:['土台づくり型',[1,2,4]]};
+const VIDEOS={
+ v18:{kicker:'動画の早見表・印刷用',h1:'働くと増える<br>年金<em>早見表</em>を<br>無料でお届け',btn:'早見表＋8大特典を無料で受け取る'}
+};
 const t=(location.hash||'').replace('#','');
+if(VIDEOS[t]){document.getElementById('kicker').textContent=VIDEOS[t].kicker;document.getElementById('h1').innerHTML=VIDEOS[t].h1;document.querySelectorAll('.btn').forEach(b=>b.textContent=VIDEOS[t].btn);}
 let pick=[];
 if(TYPES[t]){pick=TYPES[t][1];document.getElementById('type').hidden=false;
   document.getElementById('typeName').textContent='「'+TYPES[t][0]+'」の方へ';
