@@ -133,7 +133,7 @@ a{color:var(--navy)}
       <input type="hidden" name="no" value="fylTIRnMmke">
       <input type="hidden" name="action" value="kakunin">
       <div class="err" id="err1" hidden>メールアドレスを、もう一度確かめてください（@ が入っているか、など）。</div>
-      <button class="btn" type="submit">8大特典＋早見表を無料で受け取る</button>
+      <button class="btn" type="submit">8大特典＋早見表2枚を無料で受け取る</button>
       <div class="next">ボタンを押すと登録完了。<b>すぐに特典のメールが届きます。</b></div>
       <ul class="trust">
         <li>登録は無料です。お金がかかることはありません</li>
@@ -143,6 +143,10 @@ a{color:var(--navy)}
     </form>
     <p>いつ何が届くかわかるカレンダー、何歳から受け取るといくらかの早見表など、動画の数字を<b>手元に残せる1冊</b>にまとめました。</p>
 
+    <div class="new9" id="new10">
+      <img src="img/hayami10.jpg" alt="失業保険 早見表のPDF（64歳で辞めた場合と65歳で辞めた場合の月給別の金額、誕生日の2日前の数え方、やることチェック）" width="372" height="526">
+      <div><span class="newtag">NEW 特典10</span><b>65歳の前に辞める？後に辞める？ 失業保険 早見表</b><small>月給15万〜50万円で「64歳で辞めた場合・65歳で辞めた場合」の金額、辞める日のいちばん遅い日、辞める前と後のチェックリストつき。</small></div>
+    </div>
     <div class="new9" id="new9">
       <img src="img/hayami9.jpg" alt="働くと増える年金 早見表のPDF（月給別に1年働くと増える年金、在職老齢年金の判定、加給年金のチェック）" width="372" height="526">
       <div><span class="newtag">NEW 特典9</span><b>働くと増える年金 早見表</b><small>動画で使った早見表を、印刷用の1枚にしました。月給15万〜50万円で「1年働くと年金はいくら増えるか」、在職老齢年金で止まる・止まらない、加給年金のチェックつき。</small></div>
@@ -161,7 +165,7 @@ a{color:var(--navy)}
   </section>
 
   <section class="board">
-    <h2 class="sec">9つの特典</h2>
+    <h2 class="sec">10の特典</h2>
     <ol class="items" id="items"></ol>
     <div class="mail"><b>メールでは</b>、動画では公開していない、お金と資産形成のヒントになる最新情報もお届けします。年金・税金・iDeCo・新NISAの「知らないと損をする変更」も、変更があったときにお知らせします。</div>
   </section>
@@ -174,7 +178,7 @@ a{color:var(--navy)}
       <input type="hidden" name="no" value="fylTIRnMmke">
       <input type="hidden" name="action" value="kakunin">
       <div class="err" id="err2" hidden>メールアドレスを、もう一度確かめてください（@ が入っているか、など）。</div>
-      <button class="btn" type="submit">8大特典＋早見表を無料で受け取る</button>
+      <button class="btn" type="submit">8大特典＋早見表2枚を無料で受け取る</button>
       <div class="next">ボタンを押すと登録完了。<b>すぐに特典のメールが届きます。</b></div>
     </form>
     <dl class="faq">
@@ -197,18 +201,20 @@ const ALL=[
  [6,'退職金の手取り 計算シート','退職金とiDeCoを受け取る順番で、手取りがどう変わるかを書き込めます'],
  [7,'その電話・メール、本物？ 詐欺チェックリスト','「年金が戻る」「還付金がある」と言われたときの見分け方'],
  [8,'もしもの時の「家族への伝言ノート」','手続きの期限一覧つき。家族と一緒に書き込めます'],
- [9,'NEW 働くと増える年金 早見表（1枚）','月給別に1年働くと増える年金、在職老齢年金の判定、加給年金のチェック']
+ [9,'働くと増える年金 早見表（1枚）','月給別に1年働くと増える年金、在職老齢年金の判定、加給年金のチェック'],
+ [10,'NEW 失業保険 早見表（1枚）','65歳の前に辞めるか後に辞めるか。月給別の金額と、辞める日のいちばん遅い日']
 ];
 const TYPES={A:['増やしながら待つ型',[4,6,3]],B:['働いて上乗せ型',[3,5,1]],C:['受け取り方で差がつく型',[4,1,3]],D:['取りこぼさない型',[3,5,8]],E:['今から仕込む型',[2,6,1]],F:['土台づくり型',[1,2,4]]};
 const VIDEOS={
- v18:{kicker:'動画の早見表・印刷用',h1:'働くと増える<br>年金<em>早見表</em>を<br>無料でお届け',btn:'早見表＋8大特典を無料で受け取る'}
+ v18:{kicker:'動画の早見表・印刷用',h1:'働くと増える<br>年金<em>早見表</em>を<br>無料でお届け',btn:'早見表＋8大特典を無料で受け取る'},
+ v19:{kicker:'動画の早見表・印刷用',h1:'失業保険の<br><em>早見表</em>を<br>無料でお届け',btn:'早見表＋8大特典を無料で受け取る'}
 };
 const t=(location.hash||'').replace('#','');
 if(VIDEOS[t]){document.getElementById('kicker').textContent=VIDEOS[t].kicker;document.getElementById('h1').innerHTML=VIDEOS[t].h1;document.querySelectorAll('.btn').forEach(b=>b.textContent=VIDEOS[t].btn);}
 let pick=[];
 if(TYPES[t]){pick=TYPES[t][1];document.getElementById('type').hidden=false;
   document.getElementById('typeName').textContent='「'+TYPES[t][0]+'」の方へ';
-  document.getElementById('typeLead').textContent='特典'+pick.join('・')+'が、とくにおすすめです（9つ全部が届きます）';}
+  document.getElementById('typeLead').textContent='特典'+pick.join('・')+'が、とくにおすすめです（10の特典すべてが届きます）';}
 document.getElementById('items').innerHTML=ALL.map(([n,ti,w])=>`<li class="${pick.includes(n)?'pick':''}"><span class="no">特典${n}</span><div><b>${ti}</b><small>${w}</small></div></li>`).join('');
 for(const k of ['1','2']){
   const f=document.getElementById('f'+k), m=document.getElementById('mail'+k), e=document.getElementById('err'+k);
